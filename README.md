@@ -1,3 +1,32 @@
+# Fourier Neural Operator package
+
+This code come from the original code https://github.com/zongyi-li/fourier_neural_operator
+
+I just modify some part of the code to create a "proper" python package
+
+You can install it using
+
+```bash
+python setup.py install
+```
+
+or :
+
+```bash
+pip install .
+```
+
+Then to create a fourier model with the pytorch framework :
+
+
+```python
+import fourier_neural_operator.fourier_2d as fourier_2d 
+model = fourier_2d.FNO2d(modes1=modes1, modes2=modes2,  width=width, channel_input=3, output_channel=3)
+```
+
+The package is still under construction.
+
+
 # Fourier Neural Operator
 
 This repository contains the code for the paper:
