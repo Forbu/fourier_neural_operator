@@ -24,7 +24,15 @@ import fourier_neural_operator.fourier_2d as fourier_2d
 model = fourier_2d.FNO2d(modes1=modes1, modes2=modes2,  width=width, channel_input=3, output_channel=3)
 ```
 
-The package is still under construction.
+You can also simply import fourier layer : 
+
+
+```python
+import fourier_neural_operator.fourier_2d as fourier_2d 
+spectral_layer = fourier_2d.SpectralConv2d(width, width, modes1, modes2)
+```
+
+The package is still under construction and modification will come for fourier_3d and 1d.
 
 
 # Fourier Neural Operator
