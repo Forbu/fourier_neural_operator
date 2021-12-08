@@ -8,9 +8,9 @@
 
 # Fourier Neural Operator package
 
-This code come from the original code https://github.com/zongyi-li/fourier_neural_operator
+This pacakge come from : https://github.com/zongyi-li/fourier_neural_operator
 
-I just modify some part of the code to create a "proper" python package
+There is some minor modification to create a "proper" python package
 
 You can install it using
 
@@ -68,10 +68,8 @@ The code is in the form of simple scripts. Each script shall be stand-alone and 
 
 - `fourier_1d.py` is the Fourier Neural Operator for 1D problem such as the (time-independent) Burgers equation discussed in Section 5.1 in the [paper](https://arxiv.org/pdf/2010.08895.pdf).
 - `fourier_2d.py` is the Fourier Neural Operator for 2D problem such as the Darcy Flow discussed in Section 5.2 in the [paper](https://arxiv.org/pdf/2010.08895.pdf).
-- `fourier_2d_time.py` is the Fourier Neural Operator for 2D problem such as the Navier-Stokes equation discussed in Section 5.3 in the [paper](https://arxiv.org/pdf/2010.08895.pdf), 
-which uses a recurrent structure to propagates in time.
-- `fourier_3d.py` is the Fourier Neural Operator for 3D problem such as the Navier-Stokes equation discussed in Section 5.3 in the [paper](https://arxiv.org/pdf/2010.08895.pdf),
-which takes the 2D spatial + 1D temporal equation directly as a 3D problem
+- `fourier_2d_time.py` is the Fourier Neural Operator for 2D problem such as the Navier-Stokes equation discussed in Section 5.3 in the [paper](https://arxiv.org/pdf/2010.08895.pdf), which uses a recurrent structure to propagates in time.
+- `fourier_3d.py` is the Fourier Neural Operator for 3D problem such as the Navier-Stokes equation discussed in Section 5.3 in the [paper](https://arxiv.org/pdf/2010.08895.pdf), which takes the 2D spatial + 1D temporal equation directly as a 3D problem
 - The lowrank methods are similar. These scripts are the Lowrank neural operators for the corresponding settings.
 - `data_generation` are the conventional solvers we used to generate the datasets for the Burgers equation, Darcy flow, and Navier-Stokes equation.
 
