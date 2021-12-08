@@ -3,10 +3,15 @@
 This file is the Fourier Neural Operator for 3D problem such as the Navier-Stokes equation discussed in Section 5.3 in the [paper](https://arxiv.org/pdf/2010.08895.pdf),
 which takes the 2D spatial + 1D temporal equation directly as a 3D problem
 """
+
+
 import torch
 import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
+
+import matplotlib.pyplot as plt
+from .utilities3 import *
 
 import operator
 from functools import reduce
@@ -14,8 +19,7 @@ from functools import partial
 
 from timeit import default_timer
 
-from fourier_neural_operator.utilities3 import *
-from fourier_neural_operator.Adam import Adam
+from .Adam import Adam
 
 torch.manual_seed(0)
 np.random.seed(0)

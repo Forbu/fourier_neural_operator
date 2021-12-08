@@ -9,16 +9,14 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.parameter import Parameter
 
-import matplotlib.pyplot as plt
-
 import operator
 from functools import reduce
 from functools import partial
 
 from timeit import default_timer
-from .utilities3 import *
 
-from .Adam import Adam
+from fourier_neural_operator.utilities3 import *
+from fourier_neural_operator.Adam import Adam
 
 torch.manual_seed(0)
 np.random.seed(0)
