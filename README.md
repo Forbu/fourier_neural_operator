@@ -8,7 +8,7 @@
 
 # Fourier Neural Operator package
 
-This pacakge come from : https://github.com/zongyi-li/fourier_neural_operator
+This package come from : https://github.com/zongyi-li/fourier_neural_operator
 
 There is some minor modification to create a "proper" python package
 
