@@ -9,7 +9,7 @@ with open('requirements.txt') as f:
 
 setup(
     name = "fourier_neural_operator",
-    version = "0.1",
+    version = "0.2",
     description = ("Library and exemples to use the fourier neural operator"),
     packages=['fourier_neural_operator'],
     url='https://zongyi-li.github.io',
