@@ -14,11 +14,6 @@ import operator
 from functools import reduce
 
 from timeit import default_timer
-from fourier_neural_operator.utilities import *
-
-torch.manual_seed(0)
-np.random.seed(0)
-
 
 
 class LowRank2d(nn.Module):

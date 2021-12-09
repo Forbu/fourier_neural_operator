@@ -13,10 +13,6 @@ import operator
 from functools import reduce
 from timeit import default_timer
 
-from fourier_neural_operator.utilities3 import *
-
-torch.manual_seed(0)
-np.random.seed(0)
 
 ################################################################
 # lowrank layer

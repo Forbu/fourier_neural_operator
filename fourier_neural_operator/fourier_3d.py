@@ -14,11 +14,6 @@ from functools import partial
 
 from timeit import default_timer
 
-from fourier_neural_operator.utilities3 import *
-from fourier_neural_operator.Adam import Adam
-
-torch.manual_seed(0)
-np.random.seed(0)
 
 
 ################################################################

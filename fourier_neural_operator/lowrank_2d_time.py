@@ -12,9 +12,6 @@ from functools import partial
 from timeit import default_timer
 import scipy.io
 
-torch.manual_seed(0)
-np.random.seed(0)
-
 activation = F.relu
 
 ################################################################

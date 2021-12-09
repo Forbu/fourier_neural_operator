@@ -3,17 +3,12 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 
-from fourier_neural_operator.utilities3 import *
-
 import operator
 from functools import reduce
 from functools import partial
 
 from timeit import default_timer
-import scipy.io
 
-torch.manual_seed(0)
-np.random.seed(0)
 
 
 ################################################################

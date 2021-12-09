@@ -15,9 +15,6 @@ from functools import partial
 
 from timeit import default_timer
 
-torch.manual_seed(0)
-np.random.seed(0)
-
 
 ################################################################
 # fourier layer
