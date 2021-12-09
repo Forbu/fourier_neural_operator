@@ -12,16 +12,16 @@ This package come from : https://github.com/zongyi-li/fourier_neural_operator
 
 There is some minor modification to create a "proper" python package
 
-You can install it using
+You can install it using (after having download the repô)
 
 ```bash
 python setup.py install
 ```
 
-or :
+or simply using pypi :
 
 ```bash
-pip install .
+pip install pip install fourier-neural-operator
 ```
 
 Then to create a fourier model with the pytorch framework :
