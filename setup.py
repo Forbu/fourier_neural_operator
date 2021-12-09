@@ -23,5 +23,4 @@ setup(
     package_dir={'fourier_neural_operator': 'fourier_neural_operator'},
     install_requires=required,
     long_description_content_type='text/markdown',
-    download_url = "https://github.com/Forbu/fourier_neural_operator/archive/refs/tags/first.tar.gz",
 )
