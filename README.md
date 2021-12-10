@@ -1,9 +1,6 @@
 [![Generic badge](https://img.shields.io/badge/License-MIT-<COLOR>.svg)](https://shields.io/)
 ![PyPI version](https://badge.fury.io/py/fourier-neural-operator.svg)
 
-[![Downloads](https://pepy.tech/badge/fourier-neural-operator)](https://pepy.tech/project/fourier-neural-operator)
-[![Downloads](https://pepy.tech/badge/fourier-neural-operator/month)](https://pepy.tech/project/fourier-neural-operator)
-[![Downloads](https://pepy.tech/badge/fourier-neural-operator/week)](https://pepy.tech/project/fourier-neural-operator)
 
 
 # Fourier Neural Operator package
