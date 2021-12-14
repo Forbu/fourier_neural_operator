@@ -18,7 +18,7 @@ python setup.py install
 or simply using pypi :
 
 ```bash
-pip install pip install fourier-neural-operator
+pip install fourier-neural-operator
 ```
 
 Then to create a fourier model with the pytorch framework :
