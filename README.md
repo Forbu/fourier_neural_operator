@@ -1,15 +1,13 @@
 [![Generic badge](https://img.shields.io/badge/License-MIT-<COLOR>.svg)](https://shields.io/)
 ![PyPI version](https://badge.fury.io/py/fourier-neural-operator.svg)
 
-
-
 # Fourier Neural Operator package
 
-This package come from : https://github.com/zongyi-li/fourier_neural_operator
+The original code and package come from : https://github.com/zongyi-li/fourier_neural_operator (the original author of the fourier neural operator paper).
 
-There is some minor modification to create a "proper" python package
+We created some minor modification on the package to create a proper pip package using fourier neural operator.
 
-You can install it using (after having download the repô)
+You can install it using (after having download the repo)
 
 ```bash
 python setup.py install
@@ -21,7 +19,7 @@ or simply using pypi :
 pip install fourier-neural-operator
 ```
 
-Then to create a fourier model with the pytorch framework :
+Then to create a fourier model with the pytorch framework, you can write :
 
 
 ```python
@@ -39,8 +37,7 @@ spectral_layer = fourier_2d.SpectralConv2d(width, width, modes1, modes2)
 
 The package is still under construction and modification will come for fourier_3d and 1d.
 
-
-# Fourier Neural Operator
+# Fourier Neural Operator explaination
 
 This repository contains the code for the paper:
 - [(FNO) Fourier Neural Operator for Parametric Partial Differential Equations](https://arxiv.org/abs/2010.08895)
@@ -53,6 +50,8 @@ It follows from the previous works:
 - [(GKN) Neural Operator: Graph Kernel Network for Partial Differential Equations](https://arxiv.org/abs/2003.03485)
 - [(MGKN) Multipole Graph Neural Operator for Parametric Partial Differential Equations](https://arxiv.org/abs/2006.09535)
 
+You can check the code in the exemples_paper/ directory.
+
 
 ## Requirements
 - We have updated the files to support [PyTorch 1.8.0](https://pytorch.org/). 
@@ -63,10 +62,10 @@ As a result the code is about 30% faster.
 ## Files
 The code is in the form of simple scripts. Each script shall be stand-alone and directly runnable.
 
-- `fourier_1d.py` is the Fourier Neural Operator for 1D problem such as the (time-independent) Burgers equation discussed in Section 5.1 in the [paper](https://arxiv.org/pdf/2010.08895.pdf).
-- `fourier_2d.py` is the Fourier Neural Operator for 2D problem such as the Darcy Flow discussed in Section 5.2 in the [paper](https://arxiv.org/pdf/2010.08895.pdf).
-- `fourier_2d_time.py` is the Fourier Neural Operator for 2D problem such as the Navier-Stokes equation discussed in Section 5.3 in the [paper](https://arxiv.org/pdf/2010.08895.pdf), which uses a recurrent structure to propagates in time.
-- `fourier_3d.py` is the Fourier Neural Operator for 3D problem such as the Navier-Stokes equation discussed in Section 5.3 in the [paper](https://arxiv.org/pdf/2010.08895.pdf), which takes the 2D spatial + 1D temporal equation directly as a 3D problem
+- `exemples_paper/fourier_1d_exemple.py` is the Fourier Neural Operator for 1D problem such as the (time-independent) Burgers equation discussed in Section 5.1 in the [paper](https://arxiv.org/pdf/2010.08895.pdf).
+- `exemples_paper/fourier_2d_exemple.py` is the Fourier Neural Operator for 2D problem such as the Darcy Flow discussed in Section 5.2 in the [paper](https://arxiv.org/pdf/2010.08895.pdf).
+- `exemples_paper/fourier_2d_time_exemple.py` is the Fourier Neural Operator for 2D problem such as the Navier-Stokes equation discussed in Section 5.3 in the [paper](https://arxiv.org/pdf/2010.08895.pdf), which uses a recurrent structure to propagates in time.
+- `exemples_paper/fourier_3d_exemple.py` is the Fourier Neural Operator for 3D problem such as the Navier-Stokes equation discussed in Section 5.3 in the [paper](https://arxiv.org/pdf/2010.08895.pdf), which takes the 2D spatial + 1D temporal equation directly as a 3D problem
 - The lowrank methods are similar. These scripts are the Lowrank neural operators for the corresponding settings.
 - `data_generation` are the conventional solvers we used to generate the datasets for the Burgers equation, Darcy flow, and Navier-Stokes equation.
 
@@ -110,3 +109,12 @@ Here are the pre-trained models. It can be evaluated using _eval.py_ or _super_r
       primaryClass={cs.LG}
 }
 ```
+
+## Future work
+
+We are currently adding some new work to the repo :
+
+- [ ] Factorized Fourier Neural Operator
+- [ ] Conditioned Fourier Neural Operator
+
+
