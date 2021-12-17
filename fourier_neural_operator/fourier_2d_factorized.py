@@ -80,7 +80,7 @@ class SpectralConv2d(nn.Module):
 
 
 class SimpleBlock2d(nn.Module):
-    def __init__(self, modes1, modes2, width, input_dim=12, dropout=0.1, n_layers=4, residual=False, conv_residual=True):
+    def __init__(self, modes1, width, input_dim=12, dropout=0.1, n_layers=4, output_dim=1, residual=False, conv_residual=True):
         super(SimpleBlock2d, self).__init__()
 
         """
@@ -96,9 +96,9 @@ class SimpleBlock2d(nn.Module):
         """
 
         self.modes1 = modes1
-        self.modes2 = modes2
         self.width = width
         self.input_dim = input_dim
+        self.output_dim = output_dim
         self.in_proj = nn.Linear(input_dim, self.width)
         self.residual = residual
         # input channel is 12: the solution of the previous 10 timesteps + 2 locations (u(t-10, x, y), ..., u(t-1, x, y),  x, y)
@@ -114,7 +114,7 @@ class SimpleBlock2d(nn.Module):
         self.feedforward = nn.Sequential(
             nn.Linear(self.width, 128),
             nn.ReLU(inplace=True),
-            nn.Linear(128, 1))
+            nn.Linear(128, self.output_dim))
 
     def forward(self, x, **kwargs):
         # x.shape == [n_batches, *dim_sizes, input_size]
