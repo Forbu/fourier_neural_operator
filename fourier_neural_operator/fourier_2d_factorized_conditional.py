@@ -3,10 +3,8 @@
 as the Navier-Stokes equation discussed in Section 5.3 in the
 [paper](https://arxiv.org/pdf/2010.08895.pdf), which uses a recurrent structure
 to propagates in time.
-
 this part of code is taken from :
 https://github.com/alasdairtran/fourierflow/tree/97e6cfb0848e44d3a7bc1d063b1ab86bc4c603ee
-
 """
 
 
