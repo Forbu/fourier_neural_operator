@@ -9,7 +9,6 @@ https://github.com/alasdairtran/fourierflow/tree/97e6cfb0848e44d3a7bc1d063b1ab86
 
 """
 
-
 from functools import partial
 
 import torch

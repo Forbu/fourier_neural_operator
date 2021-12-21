@@ -118,12 +118,12 @@ class SpectralConv2d(nn.Module):
         return x
 
 
-class ffno_conditional(nn.Module):
+class ffno_conditional_v2(nn.Module):
     def __init__(self, modes, width, input_dim=12, dropout=0.0, in_dropout=0.0,
                  n_layers=4, linear_out: bool = False, share_weight: bool = False,
                  avg_outs=False, next_input='subtract', share_fork=False, factor=2,
                  norm_locs=[], group_width=16, ff_weight_norm=False, n_ff_layers=2,
-                 gain=1, layer_norm=False, use_fork=False, mode='full', condition_dim=2):
+                 gain=1, layer_norm=False, use_fork=False, mode='full', condition_dim=2, start_layer_film=2):
         super().__init__()
 
         """
@@ -149,6 +149,8 @@ class ffno_conditional(nn.Module):
         self.norm_locs = norm_locs
         self.use_fork = use_fork
         self.condition_dim = condition_dim
+        self.start_layer_film = start_layer_film
+        
         # input channel is 12: the solution of the previous 10 timesteps + 2 locations (u(t-10, x, y), ..., u(t-1, x, y),  x, y)
 
         self.forecast_ff = self.backcast_ff = None
@@ -196,14 +198,14 @@ class ffno_conditional(nn.Module):
             nn.ReLU(inplace=True),
             nn.Linear(10, 10),
             nn.ReLU(inplace=True),
-            nn.Linear(10, self.n_layers*(1 + self.width)))
+            nn.Linear(10, (self.n_layers - self.start_layer_film)*(1 + self.width)))
 
 
     def forward(self, x, conditions, **kwargs):
         # x.shape == [n_batches, *dim_sizes, input_size]
         # condition shape == [n_batches, input_size]
         film_params = self.conditional_layers(conditions)
-        film_params = rearrange(film_params, "b (a d) -> b a d", a=self.n_layers, d=1 + self.width)
+        film_params = rearrange(film_params, "b (a d) -> b a d", a=self.n_layers - self.start_layer_film, d=1 + self.width)
         
         forecast = 0
         x = self.in_proj(x)
@@ -222,12 +224,17 @@ class ffno_conditional(nn.Module):
                 x = x - b
             elif self.next_input == 'add':
                 x = x + b
+            
+            ## we apply the film layer on the last layer of the model
+            if idx >= self.start_layer_film:
                 
-            # film layer
-            beta = film_params[:, idx, 0].unsqueeze(1).unsqueeze(1).unsqueeze(1)
-            gamma = film_params[:, idx, 1:].unsqueeze(1).unsqueeze(1)
+                idx_custum = idx - self.start_layer_film
+                # film layer
+                beta = film_params[:, idx_custum, 0].unsqueeze(1).unsqueeze(1).unsqueeze(1)
+                gamma = film_params[:, idx_custum, 1:].unsqueeze(1).unsqueeze(1)
 
-            b = gamma*b + beta
+                b = gamma*b + beta
+                
 
         if not self.use_fork:
             forecast = self.out(b)
