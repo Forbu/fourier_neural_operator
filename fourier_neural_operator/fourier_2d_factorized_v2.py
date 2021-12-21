@@ -42,7 +42,7 @@ class ffno_v2(nn.Module):
         self.modes = modes
         self.width = width
         self.input_dim = input_dim
-        self.in_proj = WNLinear(input_dim, self.width, wnorm=ff_weight_norm)
+        self.in_proj = linear.WNLinear(input_dim, self.width, wnorm=ff_weight_norm)
         self.drop = nn.Dropout(in_dropout)
         self.next_input = next_input
         self.avg_outs = avg_outs
@@ -115,4 +115,4 @@ class ffno_v2(nn.Module):
         if self.avg_outs:
             forecast = forecast / len(self.spectral_layers)
 
-        return  forecast,
+        return forecast

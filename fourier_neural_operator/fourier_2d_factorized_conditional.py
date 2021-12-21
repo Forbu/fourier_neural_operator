@@ -13,7 +13,9 @@ from functools import partial
 import torch
 import torch.nn as nn
 from einops import rearrange
+
 import fourier_neural_operator.fourier_2d_factorized as fourier_2d_factorized 
+
 from einops.layers.torch import Rearrange, Reduce
 from einops import rearrange, reduce, repeat
 
