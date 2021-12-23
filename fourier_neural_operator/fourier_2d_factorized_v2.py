@@ -15,6 +15,7 @@ import torch.nn as nn
 from einops import rearrange
 from einops.layers.torch import Rearrange, Reduce
 from einops import rearrange, reduce, repeat
+import numpy as np
 
 import fourier_neural_operator.layers.fourier_2d_factorized_v2 as fourier_2d_factorized_v2 
 import fourier_neural_operator.layers.linear as linear 
@@ -42,7 +43,7 @@ class ffno_v2(nn.Module):
         self.modes = modes
         self.width = width
         self.input_dim = input_dim
-        self.in_proj = linear.WNLinear(input_dim, self.width, wnorm=ff_weight_norm)
+        self.in_proj = linear.WNLinear(input_dim + 2, self.width, wnorm=ff_weight_norm)
         self.drop = nn.Dropout(in_dropout)
         self.next_input = next_input
         self.avg_outs = avg_outs
@@ -92,6 +93,10 @@ class ffno_v2(nn.Module):
 
     def forward(self, x, **kwargs):
         # x.shape == [n_batches, *dim_sizes, input_size]
+        grid = self.get_grid(x.shape, x.device)
+        
+        x = torch.cat((x, grid), dim=-1)
+        
         forecast = 0
         x = self.in_proj(x)
         x = self.drop(x)
@@ -116,3 +121,12 @@ class ffno_v2(nn.Module):
             forecast = forecast / len(self.spectral_layers)
 
         return forecast
+
+    
+    def get_grid(self, shape, device):
+        batchsize, size_x, size_y = shape[0], shape[1], shape[2]
+        gridx = torch.tensor(np.linspace(0, 1, size_x), dtype=torch.float)
+        gridx = gridx.reshape(1, size_x, 1, 1).repeat([batchsize, 1, size_y, 1])
+        gridy = torch.tensor(np.linspace(0, 1, size_y), dtype=torch.float)
+        gridy = gridy.reshape(1, 1, size_y, 1).repeat([batchsize, size_x, 1, 1])
+        return torch.cat((gridx, gridy), dim=-1).to(device)

@@ -15,6 +15,7 @@ from functools import partial
 import torch
 import torch.nn as nn
 from einops import rearrange
+import numpy as np
 
 import fourier_neural_operator.layers.fourier_2d_factorized as fourier_2d_factorized
 import fourier_neural_operator.layers.linear as linear 
@@ -39,7 +40,7 @@ class ffno(nn.Module):
         self.width = width
         self.input_dim = input_dim
         self.output_dim = output_dim
-        self.in_proj = nn.Linear(input_dim, self.width)
+        self.in_proj = nn.Linear(input_dim+2, self.width)
         self.residual = residual
         # input channel is 12: the solution of the previous 10 timesteps + 2 locations (u(t-10, x, y), ..., u(t-1, x, y),  x, y)
 
@@ -53,16 +54,43 @@ class ffno(nn.Module):
 
         self.feedforward = nn.Sequential(
             nn.Linear(self.width, 128),
-            nn.ReLU(inplace=True),
-            nn.Linear(128, self.output_dim))
+            nn.ReLU(inplace=True))
+        
+        self.final = nn.Linear(128, self.output_dim)
 
     def forward(self, x, **kwargs):
         # x.shape == [n_batches, *dim_sizes, input_size]
+        grid = self.get_grid(x.shape, x.device)
+        
+        x = torch.cat((x, grid), dim=-1)
+        
         x = self.in_proj(x)
         for layer in self.spectral_layers:
             x = layer(x) + x if self.residual else layer(x)
 
         x = self.feedforward(x)
+        x = self.final(x)
         # x.shape == [n_batches, *dim_sizes, 1]
 
         return x
+    
+    def forward_transfert(self, x, **kwargs):
+        # x.shape == [n_batches, *dim_sizes, input_size]
+        grid = self.get_grid(x.shape, x.device)
+        
+        x = torch.cat((x, grid), dim=-1)
+        
+        x = self.in_proj(x)
+        for layer in self.spectral_layers:
+            x = layer(x) + x if self.residual else layer(x)
+
+        x = self.feedforward(x)
+        return x
+
+    def get_grid(self, shape, device):
+        batchsize, size_x, size_y = shape[0], shape[1], shape[2]
+        gridx = torch.tensor(np.linspace(0, 1, size_x), dtype=torch.float)
+        gridx = gridx.reshape(1, size_x, 1, 1).repeat([batchsize, 1, size_y, 1])
+        gridy = torch.tensor(np.linspace(0, 1, size_y), dtype=torch.float)
+        gridy = gridy.reshape(1, 1, size_y, 1).repeat([batchsize, size_x, 1, 1])
+        return torch.cat((gridx, gridy), dim=-1).to(device)

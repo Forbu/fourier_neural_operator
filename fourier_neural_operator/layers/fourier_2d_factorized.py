@@ -17,7 +17,7 @@ from einops import rearrange
 
 
 class SpectralConv2d(nn.Module):
-    def __init__(self, in_dim, out_dim, n_modes, resdiual=True, dropout=0.1):
+    def __init__(self, in_dim, out_dim, n_modes, resdiual=True, dropout=0.0):
         super().__init__()
         self.in_dim = in_dim
         self.out_dim = out_dim
@@ -44,6 +44,7 @@ class SpectralConv2d(nn.Module):
     def forward(self, x):
         # x.shape == [batch_size, grid_size, grid_size, in_dim]
         B, M, N, I = x.shape
+        O = self.out_dim
         res = self.linear(x)
         # res.shape == [batch_size, grid_size, grid_size, out_dim]
 
@@ -56,7 +57,7 @@ class SpectralConv2d(nn.Module):
         x_ft = torch.stack([x_ft.real, x_ft.imag], dim=4)
         # x_ft.shape == [batch_size, in_dim, grid_size, grid_size // 2 + 1, 2]
 
-        out_ft = torch.zeros(B, I, N, M // 2 + 1, 2, device=x.device)
+        out_ft = torch.zeros(B, O, N, M // 2 + 1, 2, device=x.device)
         # out_ft.shape == [batch_size, in_dim, grid_size, grid_size // 2 + 1, 2]
 
         out_ft[:, :, :self.n_modes, :self.n_modes] = self.complex_matmul_2d(
@@ -76,4 +77,48 @@ class SpectralConv2d(nn.Module):
         if self.residual:
             x = self.act(x + res)
         return x
+    
+    def forward_film_simple(self, x, gamma, beta):
+        
+        # x.shape == [batch_size, grid_size, grid_size, in_dim]
+        B, M, N, I = x.shape
+        O = self.out_dim
+        res = self.linear(x)
+        # res.shape == [batch_size, grid_size, grid_size, out_dim]
 
+        x = rearrange(x, 'b m n i -> b i m n')
+        # x.shape == [batch_size, in_dim, grid_size, grid_size]
+
+        x_ft = torch.fft.rfft2(x, s=(M, N), norm='ortho')
+        # x_ft.shape == [batch_size, in_dim, grid_size, grid_size // 2 + 1]
+
+        x_ft = torch.stack([x_ft.real, x_ft.imag], dim=4)
+        # x_ft.shape == [batch_size, in_dim, grid_size, grid_size // 2 + 1, 2]
+
+        out_ft = torch.zeros(B, O, N, M // 2 + 1, 2, device=x.device)
+        # out_ft.shape == [batch_size, in_dim, grid_size, grid_size // 2 + 1, 2]
+
+        out_ft[:, :, :self.n_modes, :self.n_modes] = self.complex_matmul_2d(
+            x_ft[:, :, :self.n_modes, :self.n_modes], self.fourier_weight[0])
+
+        out_ft[:, :, -self.n_modes:, :self.n_modes] = self.complex_matmul_2d(
+            x_ft[:, :, -self.n_modes:, :self.n_modes], self.fourier_weight[1])
+
+        out_ft = torch.complex(out_ft[..., 0], out_ft[..., 1])
+
+        x = torch.fft.irfft2(out_ft, s=(N, M), norm='ortho')
+        # x.shape == [batch_size, in_dim, grid_size, grid_size]
+
+        x = rearrange(x, 'b i m n -> b m n i')
+        # x.shape == [batch_size, grid_size, grid_size, out_dim]
+
+        if self.residual:
+            
+            x = x + res
+            
+            beta = beta.unsqueeze(1).unsqueeze(1).unsqueeze(1)
+            gamma = gamma.unsqueeze(1).unsqueeze(1).unsqueeze(1)
+            
+            x = self.act(gamma*x + beta)
+            
+        return x
