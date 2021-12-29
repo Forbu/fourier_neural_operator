@@ -16,7 +16,7 @@ except:
 
 setup(
     name = "fourier_neural_operator",
-    version = "0.8",
+    version = "0.9",
     description = ("Library and exemples to use the fourier neural operator"),
     packages=setuptools.find_packages(),
     url='https://zongyi-li.github.io',
