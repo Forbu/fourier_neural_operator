@@ -15,12 +15,13 @@ import torch.nn as nn
 from einops import rearrange
 
 import fourier_neural_operator.fourier_2d_factorized as fourier_2d_factorized 
+from fourier_neural_operator.layers.fourier_2d_factorized import SpectralConv2d
 
 from einops.layers.torch import Rearrange, Reduce
 from einops import rearrange, reduce, repeat
 
 class ffno_conditional(nn.Module):
-    def __init__(self, modes1, width, input_dim=12, dropout=0.1, n_layers=4, output_dim=1, condition_dim=3, residual=False, conv_residual=True, type_condition='complex'):
+    def __init__(self, modes1, width, input_dim=12, dropout=0., n_layers=4, output_dim=1, condition_dim=3, residual=False, conv_residual=True, type_condition='complex'):
         super(ffno_conditional, self).__init__()
 
         """
@@ -48,7 +49,7 @@ class ffno_conditional(nn.Module):
         ## spectral layer
         self.spectral_layers = nn.ModuleList([])
         for i in range(n_layers):
-            self.spectral_layers.append(fourier_2d_factorized.SpectralConv2d(in_dim=width,
+            self.spectral_layers.append(SpectralConv2d(in_dim=width,
                                                        out_dim=width,
                                                        n_modes=modes1,
                                                        resdiual=conv_residual,
