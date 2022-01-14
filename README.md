@@ -31,7 +31,7 @@ You can also simply import fourier layer :
 
 
 ```python
-from fourier_neural_operator.fourier_2d.layers import SpectralConv2d 
+from fourier_neural_operator.fourier_2d.layers.fourier_2d import SpectralConv2d 
 spectral_layer = SpectralConv2d(width, width, modes1, modes2)
 ```
 
