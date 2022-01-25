@@ -19,7 +19,7 @@ setup(
     version = "0.10",
     description = ("Library and exemples to use the fourier neural operator"),
     packages=setuptools.find_packages(),
-    url='https://zongyi-li.github.io',
+    url='https://github.com/Forbu/fourier_neural_operator',
     long_description=read('README.md'),
     install_requires=required,
     long_description_content_type='text/markdown',
