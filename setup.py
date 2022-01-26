@@ -16,7 +16,7 @@ except:
 
 setup(
     name = "fourier_neural_operator",
-    version = "0.14",
+    version = "0.15",
     description = ("Library and exemples to use the fourier neural operator"),
     packages=setuptools.find_packages(),
     url='https://github.com/Forbu/fourier_neural_operator',
