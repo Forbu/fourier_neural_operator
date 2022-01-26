@@ -1,2 +1,2 @@
 torch>=1.8
-einops
+einops==0.3.2
