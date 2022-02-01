@@ -3,7 +3,7 @@
 
 # Fourier Neural Operator package
 
-The original code and package come from : https://github.com/zongyi-li/fourier_neural_operator (the original author of the fourier neural operator paper).
+The original code and package come from : https://github.com/zongyi-li/fourier_neural_operator (the original author of the fourier neural operator paper) and also from https://github.com/alasdairtran/fourierflow
 
 We created some minor modification on the package to create a proper pip package using fourier neural operator.
 
