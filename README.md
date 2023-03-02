@@ -1,3 +1,5 @@
+> :warning: **You can now use a unify api for neural operator at https://github.com/neuraloperator/neuraloperator**: you shouldn"t use this repo now !
+
 [![Generic badge](https://img.shields.io/badge/License-MIT-<COLOR>.svg)](https://shields.io/)
 ![PyPI version](https://badge.fury.io/py/fourier-neural-operator.svg)
 
